@@ -1,0 +1,16 @@
+{
+    "version": "0.1.0",
+    "tasks": [
+        {
+            "command": "nodejs",
+            "isShellCommand": true,
+            "args": [
+                "build"
+            ],
+            "taskName": "watch",
+            "suppressTaskName": true,
+            "isBuildCommand": true,
+            "isBackground": true
+        }
+    ]
+}

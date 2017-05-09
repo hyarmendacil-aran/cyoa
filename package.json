@@ -1,0 +1,21 @@
+{
+  "name": "cyoa",
+  "version": "0.0.1",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.3.0"
+  },
+  "scripts": {
+    "build": "nodejs build.js"
+  },
+  "dependencies": {
+    "jsonschema": "^1.1.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "xhr-promise": "^2.0.0"
+  }
+}

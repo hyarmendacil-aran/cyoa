@@ -1,0 +1,344 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://www.reddit.com/r/xxxxxxx",
+  "additionalProperties": false,
+  "definitions": {
+    "flag": {
+      "additionalProperties": false,
+      "properties": {
+        "global": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "type": "object"
+    },
+    "requirements": {
+      "items": {
+        "properties": {
+          "equippedItems": {
+            "items": {
+              "description": "The name of the item that must be equipped",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "flags": {
+            "items": {
+              "$ref": "#/definitions/flag"
+            },
+            "type": "array"
+          },
+          "stats": {
+            "items": {
+              "properties": {
+                "name": {
+                  "description": "The name of the stat",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "The value for the stat",
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "useItems": {
+            "items": {
+              "description": "The name of the item the player must use",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "effects": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "changeStats": {
+            "items": {
+              "properties": {
+                "add": {
+                  "description": "The amount to add to this stat (use negative numbers to remove)",
+                  "type": "integer"
+                },
+                "name": {
+                  "description": "The name of the stat to change",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "add"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "gameOver": {
+            "type": "boolean"
+          },
+          "setFlags": {
+            "items": {
+              "$ref": "#/definitions/flag"
+            },
+            "type": "array"
+          },
+          "giveItems": {
+            "items": {
+              "description": "The name of the item to give to the player",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "takeItems": {
+            "items": {
+              "description": "The name of the item to take away from the player",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "properties": {
+    "areas": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "description": "The description shown to the player when they are in this area",
+            "type": "string"
+          },
+          "encounters": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "chance": {
+                  "type": "number"
+                },
+                "failureDescription": {
+                  "description": "The text shown to the player when the encounter ends in failure",
+                  "type": "string"
+                },
+                "failureEffects": {
+                  "$ref": "#/definitions/effects"
+                },
+                "name": {
+                  "description": "The name of the encounter",
+                  "type": "string"
+                },
+                "requirements": {
+                  "$ref": "#/definitions/requirements"
+                },
+                "successRequirements": {
+                  "$ref": "#/definitions/requirements"
+                },
+                "states": {
+                  "items": {
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "effects": {
+                        "$ref": "#/definitions/effects"
+                      },
+                      "actions": {
+                        "items": {
+                          "properties": {
+                            "name": {
+                              "description": "The short name of an extra action they can take while in this state",
+                              "type": "string"
+                            },
+                            "description": {
+                              "description": "The player-visible description of an extra action they can take while in this state",
+                              "type": "string"
+                            },
+                            "effects": {
+                              "$ref": "#/definitions/effects"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "requirements": {
+                        "items": {
+                          "properties": {
+                            "equippedItems": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            },
+                            "flags": {
+                              "items": {
+                                "$ref": "#/definitions/flag"
+                              },
+                              "type": "array"
+                            },
+                            "stats": {
+                              "items": {
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "turnsElapsed": {
+                              "type": "integer"
+                            },
+                            "useItems": {
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "successDescription": {
+                  "type": "string"
+                },
+                "successEffects": {
+                  "items": {
+                    "properties": {
+                      "changeStats": {
+                        "items": {
+                          "properties": {
+                            "add": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "giveItems": {
+                        "items": {
+                          "description": "The name of the item to give to the player",
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "setFlags": {
+                        "items": {
+                          "$ref": "#/definitions/flag"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "title": {
+                  "description": "The player-visible title of the encounter",
+                  "type": "string"
+                },
+                "turns": {
+                  "description": "The base number of turns before the encounter will end in failure (the real number may be larger than this depending on the player's stats)",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "states"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "encounters"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "stats": {
+      "items": {
+        "minProperties": 1,
+        "properties": {
+          "name": {
+            "description": "The name of the stat, which can be used to change its value in an encounter",
+            "type": "string"
+          },
+          "startingValue": {
+            "description": "The value for this stat just after character creation",
+            "maximum": 255,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": {
+            "description": "The user-visible title for the stat. Only necessary if visible is true",
+            "title": "",
+            "type": "string"
+          },
+          "visible": {
+            "default": false,
+            "description": "Whether this stat is shown in the character stats UI (if not, it will be a \"secret\" stat)",
+            "title": "",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "visible",
+          "startingValue",
+          "name"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "stats",
+    "areas"
+  ],
+  "type": "object"
+}

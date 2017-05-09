@@ -1,0 +1,196 @@
+{
+  "stats": [
+    {
+      "title": "Health",
+      "name": "health",
+      "startingValue": 50,
+      "visible": true
+    },
+    {
+      "title": "Strength",
+      "name": "strength",
+      "startingValue": 10,
+      "visible": true
+    }
+  ],
+  "areas": [
+    {
+      "title": "Starting Area",
+      "name": "startingArea",
+      "description": "You are in a maze of small twisty passages, all alike.",
+      "encounters": [
+        {
+          "title": "Monster",
+          "name": "monster",
+          "chance": 0.2,
+          "turns": 3,
+          "states": [
+            {
+              "requirements": [],
+              "effects": [],
+              "description": "You see a monster in the distance.",
+              "actions": [
+                {
+                  "name": "rock",
+                  "description": "Throw a rock at it",
+                  "effects": [
+                    {
+                      "setFlags": [
+                        {
+                          "name": "hitWithRock",
+                          "value": true,
+                          "global": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "requirements": [
+                {
+                  "flags": [
+                    {
+                      "name": "hitWithRock",
+                      "global": false,
+                      "value": true
+                    }
+                  ]
+                }
+              ],
+              "effects": [],
+              "description": "The monster says 'ouch' and glares at you.  You think maybe that was a bad idea.",
+              "actions": [
+                {
+                  "name": "rock",
+                  "description": "Throw another rock at it",
+                  "effects": [
+                    {
+                      "setFlags": [
+                        {
+                          "name": "hitWithAnotherRock",
+                          "value": true,
+                          "global": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "apologize",
+                  "description": "Apologize profusely",
+                  "effects": [
+                    {
+                      "setFlags": [
+                        {
+                          "name": "mollified",
+                          "value": true,
+                          "global": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "requirements": [
+                {
+                  "flags": [
+                    {
+                      "name": "hitWithAnotherRock",
+                      "global": false,
+                      "value": true
+                    }
+                  ]
+                }
+              ],
+              "effects": [],
+              "description": "You continue pelting the thing with rocks.  It rolls its eyes and ignores you.",
+              "actions": [
+                {
+                  "name": "rock",
+                  "description": "Throw another rock at it",
+                  "effects": []
+                },
+                {
+                  "name": "apologize",
+                  "description": "Apologize profusely",
+                  "effects": [
+                    {
+                      "setFlags": [
+                        {
+                          "name": "mollified",
+                          "value": true,
+                          "global": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "successEffects": [
+            {
+              "changeStats": [
+                {
+                  "name": "health",
+                  "add": 5
+                }
+              ]
+            }
+          ],
+          "failureEffects": [
+            {
+              "changeStats": [
+                {
+                  "name": "health",
+                  "add": -25
+                }
+              ]
+            }
+          ],
+          "successRequirements": [
+            {
+              "flags": [
+                {
+                  "name": "mollified",
+                  "global": false,
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "successDescription": "The monster accepts your apology and goes about its business. You feel healthier for some reason.",
+          "failureDescription": "The monster eats you.  You lose some health.",
+          "requirements": [
+            {
+              "stats": [
+                {
+                  "name": "health",
+                  "value": 100
+                }
+              ],
+              "useItems": [
+                "item1",
+                "item2"
+              ],
+              "equippedItems": [
+                "armor1"
+              ],
+              "flags": [
+                {
+                  "name": "flag1",
+                  "value": true,
+                  "global": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
