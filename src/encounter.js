@@ -1,10 +1,16 @@
 import Listenable from './listenable';
 import MainCharacter from './main_character';
+import { EncounterJson, FlagJson } from './json_types';
 
 export default class Encounter extends Listenable {
+  /**
+   * @param {EncounterJson} encounterJson;
+   * @param {MainCharacter} char;
+   */
   constructor(encounterJson, char) {
     super();
     this._json = encounterJson;
+    /** @type Object<FlagJson> */
     this._flags = {};
     this._succeeded = false;
     this._failed = false;
@@ -15,7 +21,7 @@ export default class Encounter extends Listenable {
   /**
    * @param {MainCharacter} char
    * @param {string} selectedAction
-   * @param {string|undefined} detail
+   * @param {string} [detail]
    */
   takeTurn(char, selectedAction, detail) {
     if (selectedAction == '_wait') {
@@ -32,14 +38,14 @@ export default class Encounter extends Listenable {
     if (this._turnsElapsed >= this._json.turns) {
       this._failed = true;
       char.applyEffects(this._json.failureEffects || [], this);
-    } else if (char.evaluateRequirements(this._json.successRequirements, this)) {
+    } else if (char.meetsRequirements(this._json.successRequirements, this)) {
       this._succeeded = true;
       char.applyEffects(this._json.successEffects || [], this);
     } else {
       const reversedStates = this._json.states.slice();
       reversedStates.reverse();  // Check later states first.
       for (let state of reversedStates) {
-        if (char.evaluateRequirements(state.requirements, this)) {
+        if (char.meetsRequirements(state.requirements, this)) {
           this._currentState = state;
           break;
         }

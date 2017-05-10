@@ -26,8 +26,8 @@ export default class ActionView extends React.Component {
     const encounter = area.getCurrentEncounter();
     if (encounter && !encounter.finished()) {
       const actions = encounter.getActions().concat([
-        { name: '_item', description: 'Use an item' },
-        { name: '_equip', description: 'Put on an outfit' }
+        { name: '_item', description: 'Use an item', effects: [] },
+        { name: '_equip', description: 'Put on an outfit', effects: [] }
       ]);
       const actionDom = actions.map((action) => (
         <button key={action.name} onClick={() => this._performAction(action.name)}>{action.description}</button>
@@ -46,6 +46,9 @@ export default class ActionView extends React.Component {
     this.props.area.explore();
   }
 
+  /**
+   * @param {string} action
+   */
   _performAction(action) {
     /** @type {Area} */
     const area = this.props.area;

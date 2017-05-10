@@ -24,8 +24,9 @@
     },
     "requirements": {
       "items": {
+        "additionalProperties": false,
         "properties": {
-          "equippedItems": {
+          "equipment": {
             "items": {
               "description": "The name of the item that must be equipped",
               "type": "string"
@@ -54,12 +55,8 @@
             },
             "type": "array"
           },
-          "useItems": {
-            "items": {
-              "description": "The name of the item the player must use",
-              "type": "string"
-            },
-            "type": "array"
+          "item": {
+            "type": "string"
           }
         },
         "type": "object"
@@ -289,6 +286,9 @@
           },
           "title": {
             "type": "string"
+          },
+          "requirements": {
+            "$ref": "#/definitions/requirements"
           }
         },
         "required": [
@@ -299,6 +299,27 @@
       },
       "minItems": 1,
       "type": "array"
+    },
+    "items": {
+      "items": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "equipment": {
+            "type": "boolean"
+          },
+          "consume": {
+            "type": "boolean"
+          }
+        }
+      }
     },
     "stats": {
       "items": {
@@ -338,6 +359,7 @@
   },
   "required": [
     "stats",
+    "items",
     "areas"
   ],
   "type": "object"

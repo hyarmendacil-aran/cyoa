@@ -1,5 +1,6 @@
 import React from 'react';
 import MainCharacter from './main_character';
+import JsonTypes from './json_types';
 
 export default class CharacterView extends React.Component {
   /**

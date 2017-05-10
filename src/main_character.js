@@ -1,21 +1,25 @@
 import Encounter from './encounter';
 import Inventory from './inventory';
 import Listenable from './listenable';
+import { EffectsJson, ItemJson, RequirementsJson } from './json_types';
 
 export default class MainCharacter extends Listenable {
   /**
    * Constructs a brand new character (as in character creation).
    * @param {string} name
+   * @param {Array<ItemJson>} allItems
    */
-  constructor(name) {
+  constructor(name, allItems) {
     super();
     /** @type {string} */
     this._name = name;
 
     this._stats = {};
     this._flags = {};
+    this._usedItem = null;
+    this._equippedItems = null;
 
-    this._inventory = new Inventory();
+    this._inventory = new Inventory(allItems);
   }
 
   get name() {
@@ -79,7 +83,8 @@ export default class MainCharacter extends Listenable {
   }
 
   /**
-  * @param {{changeStats: Array|undefined, setFlags: Array|undefined, giveItems: Array|undefined, takeItems: Array|undefined}} effects
+  * @param {Array<EffectsJson>} effects
+  * @param {Encounter} encounter
   */
   applyEffects(effects, encounter) {
     for (let effect of effects) {
@@ -93,21 +98,21 @@ export default class MainCharacter extends Listenable {
           encounter.setFlag(flag.name, flag.value);
         }
       }
-      for (item of effect.giveItems || []) {
-        // TODO: implement items.
+      for (let item of effect.giveItems || []) {
+        this._inventory.addItem(item);
       }
-      for (item of effect.takeItems || []) {
-        // TODO: implement items.
+      for (let item of effect.takeItems || []) {
+        this._inventory.removeItem(item);
       }
     }
   }
 
   /**
-   * @param {Array<{stats: Array|undefined, useItems: Array|undefined, equippedItems: Array|undefined, flags: Array|undefined}>} requirements
+   * @param {Array<RequirementsJson>} requirements
    * @param {Encounter} encounter
    * @return {boolean}
    */
-  evaluateRequirements(requirements, encounter) {
+  meetsRequirements(requirements, encounter) {
     // TODO: implement other requirement types.
     for (let requirement of requirements) {
       for (let flag of (requirement.flags || [])) {
@@ -115,7 +120,7 @@ export default class MainCharacter extends Listenable {
           if ((this._flags[flag.name] || false) != flag.value) {
             return false;
           }
-        } else {
+        } else if (encounter) {
           if (encounter.getFlag(flag.name) != flag.value) {
             return false;
           }
@@ -125,8 +130,39 @@ export default class MainCharacter extends Listenable {
     return true;
   }
 
+  /**
+   * @param {string} item_name
+   */
+  useItem(item_name) {
+    const item = this._inventory.getItem(item_name);
+    if (!item) {
+      throw Error(`Player does not have item ${item_name}`);
+    }
+    if (item.equipment) {
+      throw Error(`Cannot use equipment item ${item_name}`);
+    }
+    if (item.consume) {
+      this._inventory.removeItem(item_name);
+    }
+    this._usedItem = item;
+  }
+
+  /**
+   * @param {string} item_name
+   */
+  equipItem(item_name) {
+    const item = this._inventory.getItem(item_name);
+    if (!item) {
+      throw Error(`Player does not have item ${item_name}`);
+    }
+    if (!item.equipment) {
+      throw Error(`Cannot equip usable item ${item_name}`);
+    }
+    this._equippedItems[item.slot] = item;
+  }
+
   resetUsedItems() {
-    // TODO: implement.
+    this._usedItem = null;
   }
 
   getInventory() {

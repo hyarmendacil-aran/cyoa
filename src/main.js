@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import jsonschema from 'jsonschema';
+import XMLHttpRequestPromise from 'xhr-promise';
+
 import AppLayout from './app_layout';
 import Area from './area';
 import MainCharacter from './main_character';
-
-const XMLHttpRequestPromise = require('xhr-promise');
+import { GameJson } from './json_types';
 
 const xhr = new XMLHttpRequestPromise();
 
 let gameData = null;
 let gameDataSchema = null;
+
 xhr.send({
   method: 'GET',
   url: 'data/game.json',
@@ -26,15 +29,16 @@ xhr.send({
   }).then((results) => {
     gameDataSchema = results.responseText;
 
-    const validate = require('jsonschema').validate;
+    const validate = jsonschema.validate;
     const validatorResult = validate(gameData, gameDataSchema);
     if (validatorResult.errors.length > 0) {
-      throw Error(validatorResult.errors);
+      throw Error(validatorResult.errors.toString());
     }
+    /** @type {GameJson} */
     const parsedData = validatorResult.instance;
     console.log(parsedData);
 
-    const char = new MainCharacter('Hiro Protagonist');
+    const char = new MainCharacter('Hiro Protagonist', parsedData.items);
     for (let stat of parsedData.stats) {
       char.defineStat(stat.name, stat.startingValue, stat.title, stat.visible);
     }

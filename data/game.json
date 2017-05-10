@@ -13,17 +13,34 @@
       "visible": true
     }
   ],
+  "items": [
+    {
+      "name": "vorpal_sword",
+      "title": "Vorpal Sword",
+      "description": "A mythical sword said to occasionally go snicker-snack",
+      "equipment": true,
+      "slot": "weapon"
+    },
+    {
+      "name": "potion",
+      "title": "Potion of Nothing",
+      "description": "A magic potion that magically does nothing.",
+      "equipment": false,
+      "consume": true
+    }
+  ],
   "areas": [
     {
       "title": "Starting Area",
       "name": "startingArea",
       "description": "You are in a maze of small twisty passages, all alike.",
+      "requirements": [],
       "encounters": [
         {
           "title": "Monster",
           "name": "monster",
           "chance": 0.2,
-          "turns": 3,
+          "turns": 5,
           "states": [
             {
               "requirements": [],
@@ -173,12 +190,9 @@
                   "value": 100
                 }
               ],
-              "useItems": [
-                "item1",
-                "item2"
-              ],
-              "equippedItems": [
-                "armor1"
+              "item": "potion",
+              "equipment": [
+                "vorpal_sword"
               ],
               "flags": [
                 {
