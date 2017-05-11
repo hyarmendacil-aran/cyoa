@@ -40,7 +40,8 @@
           "title": "Monster",
           "name": "monster",
           "chance": 0.2,
-          "turns": 5,
+          "requirements": [],
+          "turns": 10,
           "states": [
             {
               "requirements": [],
@@ -49,7 +50,8 @@
               "actions": [
                 {
                   "name": "rock",
-                  "description": "Throw a rock at it",
+                  "title": "Throw a rock at it",
+                  "description": "You hurl a rock at the monster.",
                   "effects": [
                     {
                       "setFlags": [
@@ -81,7 +83,8 @@
               "actions": [
                 {
                   "name": "rock",
-                  "description": "Throw another rock at it",
+                  "title": "Throw another rock at it",
+                  "description": "You continue pelting it with rocks.",
                   "effects": [
                     {
                       "setFlags": [
@@ -95,8 +98,56 @@
                   ]
                 },
                 {
+                  "name": "sword",
+                  "title": "Pick up the convenient sword laying nearby",
+                  "description": "You dive cinematically onto the sword, picking it up with a flourish.",
+                  "effects": [
+                    {
+                      "giveItems": [
+                        "vorpal_sword"
+                      ]
+                    }
+                  ]
+                },
+                {
                   "name": "apologize",
-                  "description": "Apologize profusely",
+                  "title": "Apologize profusely",
+                  "description": "You muster up an appropriate amount of chagrin and tell the monster how sorry you are for throwing rocks at it.",
+                  "effects": [
+                    {
+                      "setFlags": [
+                        {
+                          "name": "mollified",
+                          "value": true,
+                          "global": false
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "requirements": [
+                {
+                  "equipment": [
+                    "vorpal_sword"
+                  ]
+                }
+              ],
+              "effects": [],
+              "description": "The monster eyes you, and the sword you're holding, warily.",
+              "actions": [
+                {
+                  "name": "rock",
+                  "title": "Throw another rock at it",
+                  "description": "You continue pelting it with rocks.",
+                  "effects": []
+                },
+                {
+                  "name": "apologize",
+                  "title": "Apologize profusely",
+                  "description": "You muster up an appropriate amount of chagrin and tell the monster how sorry you are for throwing rocks at it.",
                   "effects": [
                     {
                       "setFlags": [
@@ -124,16 +175,18 @@
                 }
               ],
               "effects": [],
-              "description": "You continue pelting the thing with rocks.  It rolls its eyes and ignores you.",
+              "description": "It rolls its eyes and ignores you.",
               "actions": [
                 {
                   "name": "rock",
-                  "description": "Throw another rock at it",
+                  "title": "Throw another rock at it",
+                  "description": "You continue pelting it with rocks.",
                   "effects": []
                 },
                 {
                   "name": "apologize",
-                  "description": "Apologize profusely",
+                  "title": "Apologize profusely",
+                  "description": "You muster up an appropriate amount of chagrin and tell the monster how sorry you are for throwing rocks at it.",
                   "effects": [
                     {
                       "setFlags": [
@@ -177,32 +230,14 @@
                   "global": false,
                   "value": true
                 }
+              ],
+              "equipment": [
+                "vorpal_sword"
               ]
             }
           ],
           "successDescription": "The monster accepts your apology and goes about its business. You feel healthier for some reason.",
-          "failureDescription": "The monster eats you.  You lose some health.",
-          "requirements": [
-            {
-              "stats": [
-                {
-                  "name": "health",
-                  "value": 100
-                }
-              ],
-              "item": "potion",
-              "equipment": [
-                "vorpal_sword"
-              ],
-              "flags": [
-                {
-                  "name": "flag1",
-                  "value": true,
-                  "global": false
-                }
-              ]
-            }
-          ]
+          "failureDescription": "The monster eats you.  You lose some health."
         }
       ]
     }

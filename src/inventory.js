@@ -25,7 +25,7 @@ export default class Inventory extends Listenable {
    */
   getItems() {
     // It'll be nice when Object.values() is in all browsers.
-    return this._items.keys().map((key) => this._items[key]);
+    return Object.keys(this._items).map((key) => this._items[key]);
   }
 
   /**

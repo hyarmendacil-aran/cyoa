@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// @ts-ignore
 import jsonschema from 'jsonschema';
+// @ts-ignore
 import XMLHttpRequestPromise from 'xhr-promise';
 
 import AppLayout from './app_layout';
@@ -29,8 +31,7 @@ xhr.send({
   }).then((results) => {
     gameDataSchema = results.responseText;
 
-    const validate = jsonschema.validate;
-    const validatorResult = validate(gameData, gameDataSchema);
+    const validatorResult = jsonschema.validate(gameData, gameDataSchema);
     if (validatorResult.errors.length > 0) {
       throw Error(validatorResult.errors.toString());
     }

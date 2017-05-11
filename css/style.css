@@ -52,6 +52,18 @@
   background-color: #EEE;
   flex: 1;
 }
+.description-view > div {
+  margin: 0.5rem 0;
+}
+.description-view > div:empty {
+  margin: 0;
+}
+.description-view > div:first-of-type {
+  margin-top: 0;
+}
+.description-view > div:last-of-type {
+  margin-bottom: 0;
+}
 
 .action-view > .action-view-actions {
   display: flex;
@@ -61,4 +73,30 @@
 .action-view-actions button {
   flex: 1;
   margin-bottom: 0.125rem;
+}
+
+.inventory-view {
+  position: absolute;
+  top: 2rem;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  padding: 0.75rem 1rem;
+  background-color: #FFF;
+  border: 1px solid #CCC;
+  overflow-y: auto;
+}
+.inventory-view > .inventory-item {
+  display: flex;
+  margin: 0.25rem 0;
+}
+.inventory-view .item-name {
+  white-space: nowrap;
+  font-weight: 800;
+  margin-right: 1rem;
+  flex: 0;
+}
+.inventory-view .item-description {
+  color: #444;
+  flex: 1;
 }

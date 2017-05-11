@@ -25,10 +25,10 @@ export class RequirementsJson {
   constructor() {
     /** @type {Array<{name: string, value: number}>} */
     this.stats = [];
+    /** @type {string} */
+    this.item = '';
     /** @type {Array<string>} */
-    this.useItems = [];
-    /** @type {Array<string>} */
-    this.equippedItems = [];
+    this.equipment = [];
     /** @type {Array<FlagJson>} */
     this.flags = [];
   }
@@ -36,6 +36,7 @@ export class RequirementsJson {
 
 export class EffectsJson {
   constructor() {
+    /** @type {Array<{name: string, add: number}>} */
     this.changeStats = [];
     /** @type {Array<FlagJson>} */
     this.setFlags = [];
@@ -49,6 +50,7 @@ export class EffectsJson {
 export class ActionJson {
   constructor() {
     this.name = '';
+    this.title = '';
     this.description = '';
     /** @type {Array<EffectsJson>} */
     this.effects = [];
@@ -62,6 +64,8 @@ export class StateJson {
     this.requirements = [];
     /** @type {Array<ActionJson>} */
     this.actions = [];
+    /** @type {Array<EffectsJson>} */
+    this.effects = [];
   }
 }
 

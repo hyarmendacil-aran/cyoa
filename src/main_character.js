@@ -17,7 +17,7 @@ export default class MainCharacter extends Listenable {
     this._stats = {};
     this._flags = {};
     this._usedItem = null;
-    this._equippedItems = null;
+    this._equippedItems = {};
 
     this._inventory = new Inventory(allItems);
   }
@@ -113,7 +113,6 @@ export default class MainCharacter extends Listenable {
    * @return {boolean}
    */
   meetsRequirements(requirements, encounter) {
-    // TODO: implement other requirement types.
     for (let requirement of requirements) {
       for (let flag of (requirement.flags || [])) {
         if (flag.global) {
@@ -124,6 +123,21 @@ export default class MainCharacter extends Listenable {
           if (encounter.getFlag(flag.name) != flag.value) {
             return false;
           }
+        }
+      }
+      for (let stat of (requirement.stats || [])) {
+        if (this.getStat(stat.name) < stat.value) {
+          return false;
+        }
+      }
+      if (requirement.item && requirement.item != this._usedItem.name) {
+        return false;
+      }
+      for (let equipment of (requirement.equipment || [])) {
+        if (Object.keys(this._equippedItems)
+          .map((key) => this._equippedItems[key].name)
+          .indexOf(equipment) < 0) {
+          return false;
         }
       }
     }
